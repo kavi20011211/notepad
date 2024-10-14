@@ -46,7 +46,18 @@ final CollectionReference _notes =
                       const InputDecoration(hintText: "content"),
                 ),
                 MaterialButton(onPressed: ()async{
-                    await _notes.add({
+                    if(title.text.isEmpty || content.text.isEmpty){
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text(
+        "Fields are empty. cannot be empty",
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.grey,
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      dismissDirection: DismissDirection.up,
+    ));
+                    }else{
+                      await _notes.add({
                     "title":title.text,
                     "content":content.text,
                     "userID":currentUserID,
@@ -54,6 +65,16 @@ final CollectionReference _notes =
                   });
                   title.text = '';
                   content.text = '';
+ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+      content: Text(
+        "You have successfully added the note",
+        style: TextStyle(color: Colors.white),
+      ),
+      backgroundColor: Colors.grey,
+      padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
+      dismissDirection: DismissDirection.up,
+    ));
+                  }
                 },
                 child:const Text("Add"),)
               ],
